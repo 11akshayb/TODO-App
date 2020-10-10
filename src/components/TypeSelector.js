@@ -7,6 +7,7 @@ export default (props) => {
       {isArray &&
         props.buttonArray.map(btn => (
           <button
+            onClick={() => props.onClick(btn)}
             className={`${props.btnActive === btn ? "btn-active" : ""}`}
             key={btn}
           >
