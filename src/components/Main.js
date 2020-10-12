@@ -1,67 +1,45 @@
+import '../styles/Main.css';
+
 import React, { Component } from "react";
 import TypeSelector from './TypeSelector';
 import TodoList from './TodoList';
 import ModalView from './ModalView';
+import AddButton from './AddButton'
 import ModalInnerView from './ModalInnverView'
+import SearchBox from './SearchBox'
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          title: "",
-          description: "",
-          selectedTodoType: "all",
-          todoTypes: ["all", "pending", "completed"],
-          isModalOpen: false,
-          allTodos: JSON.parse(localStorage.getItem("todos")) || [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn:true,
+      isModalOpen: false,
+      title: "",
+      description: "",
+      allTodos: JSON.parse(localStorage.getItem("todos")) || [],
+      showTodoType: "all",
+      todoTypes: ["all", "pending", "completed"],
+      searchTerm: "",
+      showDetailsModal: false,
+      // showDetailsOf: ""
+    };
+  }
 
+  onTitleChange = title => {
+    this.setState({ title });
+  };
 
-        };
-      }
+  onDescChange = description => {
+    this.setState({ description });
+  };
 
-      showTodosOfSelectedType = type => {
-        this.setState({ selectedTodoType: type });
-      };
+  toggleModal = () => {
+    this.setState({ isModalOpen: !this.state.isModalOpen });
+  };
 
-      filterTodosToShow = type => {
-        const { allTodos } = this.state;
-        switch (type) {
-          case "completed":
-            return allTodos.filter(todo => todo.completed === true);
-          case "pending":
-            return allTodos.filter(todo => todo.completed === false);
-          default:
-            return allTodos;
-        }
-      };
-    
-      onTitleChange = title => {
-        this.setState({ title });
-      };
-
-      onDescChange = description => {
-        this.setState({ description });
-      };
-
-      addTodo = () => {
-        let todosList = [];
-        let todoItem = {};
-        const { title, description } = this.state;
-        if (!title) return;
-        const previousList = JSON.parse(localStorage.getItem("todos"));
-        if (previousList !== "" && Array.isArray(previousList)) {
-          todosList = [...previousList];
-        }
-        const d = new Date();
-        const id = d.valueOf();
-        todoItem = { id: id, title, description, completed: false };
-        todosList.push(todoItem);
-        this.updateLocalStorage(todosList);
-        this.updateTodo(todosList);
-        this.toggleModal();
-        this.resetData();
-      };
-
+  resetData = () => {
+    this.setState({ title: "", description: "" });
+  };
 
   completedToDo = id => {
     const { allTodos } = this.state;
@@ -71,67 +49,131 @@ class Main extends Component {
     this.updateLocalStorage(allTodos);
   };
 
-      updateTodo = allTodos => {
-        this.setState({ allTodos });
-      };
-    
-      updateLocalStorage = todoList => {
-        localStorage.setItem("todos", JSON.stringify(todoList));
-      };
-
-      toggleModal = () => {
-        this.setState({ isModalOpen: !this.state.isModalOpen });
-      };
-    
-      resetData = () => {
-        this.setState({ title: "", description: "" });
-      };
-    
-      updateTodo = allTodos => {
-        this.setState({ allTodos });
-      };
-    
-      updateLocalStorage = todoList => {
-        localStorage.setItem("todos", JSON.stringify(todoList));
-      };
-    
-      deleteTodo = id => {
-        const newList = this.state.allTodos.filter(todos => todos.id !== id);
-        this.updateLocalStorage(newList);
-        this.updateTodo(newList);
-      };
-    
-      render(){
-          const {
-          title,
-          isModalOpen,
-          description,
-          selectedTodoType,
-          todoTypes,
-          allTodos
-          } = this.state;
-
-          const listOfTodos = this.filterTodosToShow(selectedTodoType)
-          
-
-          return (
-              <div className='todoContainer'>
-                <TypeSelector buttonArray={todoTypes} onClick={this.showTodosOfSelectedType} btnActive={selectedTodoType} />
-                <TodoList todos={listOfTodos} deleteTodo={this.deleteTodo} completedToDo={this.completedToDo} />
-                <ModalView isVisible={isModalOpen}>
-                <ModalInnerView
-                    title={title}
-                    description={description}
-                    onTitleChange={this.onTitleChange}
-                    OnDescChange={this.onDescChange}
-                    add={this.addTodo}
-                    reset={this.resetData}
-                    cancel={this.toggleModal}
-                />
-                </ModalView>
-              </div>
-          );
-      }
+  addTodo = () => {
+    let todosList = [];
+    let todoItem = {};
+    const { title, description } = this.state;
+    if (!title) return;
+    //getting previous stored localstorage
+    const previousList = JSON.parse(localStorage.getItem("todos"));
+    if (previousList !== "" && Array.isArray(previousList)) {
+      todosList = [...previousList];
     }
+    //generating id based on milliseconds
+    const d = new Date();
+    const id = d.valueOf();
+    todoItem = { id: id, title, description, completed: false };
+    todosList.push(todoItem);
+    //setting up local storage
+    this.updateLocalStorage(todosList);
+    //updating state
+    this.updateTodo(todosList);
+    //clearing state and hiding modal
+    this.toggleModal();
+    this.resetData();
+  };
 
-export default Main
+  updateTodo = allTodos => {
+    this.setState({ allTodos });
+  };
+
+  updateLocalStorage = todoList => {
+    localStorage.setItem("todos", JSON.stringify(todoList));
+  };
+
+  deleteTodo = id => {
+    const newList = this.state.allTodos.filter(todos => todos.id !== id);
+    //setting up new list after filtering out
+    this.updateLocalStorage(newList);
+    this.updateTodo(newList);
+  };
+
+  todosToShow = type => {
+    this.setState({ showTodoType: type });
+  };
+
+  fiilerTodosToShow = type => {
+    const { allTodos } = this.state;
+    switch (type) {
+      case "completed":
+        return allTodos.filter(todo => todo.completed === true);
+      case "pending":
+        return allTodos.filter(todo => todo.completed === false);
+      default:
+        return allTodos;
+    }
+  };
+
+  searchTodo = e => {
+    const searchTerm = e.target.value;
+    this.setState({ searchTerm });
+  };
+
+  filterWithSearchTerm = (searchTerm, todoList) => {
+    const pattern = new RegExp(`^.*${searchTerm}.*$`);
+    return todoList.filter(item => {
+      if (pattern.test(item.title) || pattern.test(item.description)) {
+        return item;
+      }
+    });
+  };
+
+  render() {
+    const {
+      isLoggedIn,
+      isModalOpen,
+      title,
+      description,
+      showTodoType,
+      todoTypes,
+      searchTerm,
+      showDetailsModal,
+    } = this.state;
+
+    const listOfTodos = this.filterWithSearchTerm(
+      searchTerm,
+      this.fiilerTodosToShow(showTodoType)
+    );
+
+    return (
+      isLoggedIn ? (
+      <>
+        <div className="todo-wrapper">
+          <TypeSelector
+            buttonArray={todoTypes}
+            onClick={this.todosToShow}
+            btnActive={showTodoType}
+          />
+          {listOfTodos.length > 1 || searchTerm !== "" ? (
+            <SearchBox onChange={this.searchTodo} />
+          ) : null}
+          <TodoList
+            todos={listOfTodos}
+            deleteTodo={this.deleteTodo}
+            completedToDo={this.completedToDo}
+          />
+          {!isModalOpen && !showDetailsModal && (
+            <AddButton onClick={this.toggleModal} />
+          )}
+          <ModalView isVisible={isModalOpen}>
+            <ModalInnerView
+              title={title}
+              description={description}
+              onTitleChange={this.onTitleChange}
+              OnDescChange={this.onDescChange}
+              add={this.addTodo}
+              reset={this.resetData}
+              cancel={this.toggleModal}
+            />
+          </ModalView>
+
+        </div>
+      </>
+      ) : (
+        <div>PLEASE LOGIN!</div>
+      )
+    );
+  }
+}
+
+export default Main;

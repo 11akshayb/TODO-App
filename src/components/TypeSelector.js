@@ -1,14 +1,14 @@
 import React from "react";
 
-export default (props) => {
-  const isArray = Array.isArray(props.buttonArray);
+export default ({ buttonArray, onClick, btnActive }) => {
+  const isArray = Array.isArray(buttonArray);
   return (
     <div className="todo-filters">
       {isArray &&
-        props.buttonArray.map(btn => (
+        buttonArray.map(btn => (
           <button
-            onClick={() => props.onClick(btn)}
-            className={`${props.btnActive === btn ? "btn-active" : ""}`}
+            onClick={() => onClick(btn)}
+            className={`${btnActive === btn ? "btn-active" : ""}`}
             key={btn}
           >
             <span>{btn}</span>
