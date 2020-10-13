@@ -1,4 +1,4 @@
-import '../styles/Main.css';
+// import '../styles/Main.css';
 
 import React, { Component } from "react";
 import TypeSelector from './TypeSelector';
