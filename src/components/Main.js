@@ -8,11 +8,13 @@ import AddButton from './AddButton'
 import ModalInnerView from './ModalInnverView'
 import SearchBox from './SearchBox'
 
+import { connect } from 'react-redux';
+
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn:true,
+      // isLoggedIn:true,
       isModalOpen: false,
       title: "",
       description: "",
@@ -25,6 +27,10 @@ class Main extends Component {
     };
   }
 
+  // componentDidMount()
+  // {
+  //   console.log(this.props.isLoggedIn)
+  // }
   onTitleChange = title => {
     this.setState({ title });
   };
@@ -43,7 +49,7 @@ class Main extends Component {
 
   completedToDo = id => {
     const { allTodos } = this.state;
-    const todoIndex = this.state.allTodos.findIndex(todo => todo.id == id);
+    const todoIndex = this.state.allTodos.findIndex(todo => todo.id === id);
     allTodos[todoIndex].completed = true;
     this.updateTodo(allTodos);
     this.updateLocalStorage(allTodos);
@@ -120,7 +126,7 @@ class Main extends Component {
 
   render() {
     const {
-      isLoggedIn,
+      // isLoggedIn,
       isModalOpen,
       title,
       description,
@@ -134,9 +140,8 @@ class Main extends Component {
       searchTerm,
       this.fiilerTodosToShow(showTodoType)
     );
-
     return (
-      isLoggedIn ? (
+      this.props.isLoggedIn ? (
       <>
         <div className="todo-wrapper">
           <TypeSelector
@@ -176,4 +181,11 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const mapStateToProps = state => {
+  console.log(state.login.isLoggedin)
+  return{
+    
+    isLoggedIn:state.login.isLoggedin
+  }
+}
+export default connect (mapStateToProps)(Main);

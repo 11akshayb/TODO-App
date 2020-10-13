@@ -1,38 +1,38 @@
-import React from "react";
+import React, {useState} from 'react';
 import {
 Button,
 TextField,
 Grid,
 Paper,
-AppBar,
 Typography,
-Toolbar,
-Link,
 } from "@material-ui/core";
 
-// import {BRAND_NAME} from '../constants'
-class Login extends React.Component {
-constructor(props) {
-super(props);
-this.state = { username: "", password:"", authflag:1 };
-this.handleChange = this.handleChange.bind(this);
-this.handleSubmit = this.handleSubmit.bind(this);
+import {useSelector, useDispatch} from 'react-redux';
+import {alterLogin} from '../redux/actions/loginActions.js';
+import {useHistory} from 'react-router-dom';
 
-}
+function Login(){
 
-handleChange(event) {
-this.setState({ username: event.state.username, password: event.state.password });
-}
-handleSubmit(event) {
-event.preventDefault();
-if (this.state.username == localStorage.getItem('email') && this.state.password == localStorage.getItem('password')) {
-    console.log('Hi')
-this.props.history.push("/main");
+
+
+const [username,setUsername]=useState("")
+const [password,setPassword]=useState("")
+
+const isLoggedIn = useSelector((state) => state.login.isLoggedin);
+console.log(isLoggedIn);
+const dispatch = useDispatch();
+const history = useHistory();
+
+function handleSubmit(){
+    console.log(isLoggedIn)
+    if (username === localStorage.getItem('email') && password === localStorage.getItem('password')) {
+    dispatch(alterLogin());
+    history.push("/main");
+    console.log(isLoggedIn)
 } else {
-alert('Incorrect Credntials!');
+alert('Incorrect Credentials!');
 }
 }
-render() {
 return (
 <div>
 
@@ -56,7 +56,8 @@ return (
             </Typography>
         </Grid>
         <Grid item>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={() => dispatch(alterLogin())}> */}
         <Grid container direction="column" spacing={2}>
         <Grid item>
         <TextField
@@ -65,12 +66,8 @@ return (
         fullWidth
         name="username"
         variant="outlined"
-        value={this.state.username}
-        onChange={(event) =>
-        this.setState({
-        [event.target.name]: event.target.value,
-        })
-        }
+        value={username}
+        onChange={(username) => setUsername(username.target.value)}
         required
         autoFocus
         />
@@ -82,12 +79,8 @@ return (
         fullWidth
         name="password"
         variant="outlined"
-        value={this.state.password}
-        onChange={(event) =>
-        this.setState({
-        [event.target.name]: event.target.value,
-        })
-        }
+        value={password}
+        onChange={(password) => setPassword(password.target.value)}
         required
         />
         </Grid>
@@ -105,9 +98,7 @@ return (
         </form>
         </Grid>
     <Grid item>
-{/* <Link href="#" variant="body2">
-Forgot Password?
-</Link> */}
+
     </Grid>
     </Paper>
     </Grid>
@@ -115,6 +106,5 @@ Forgot Password?
     </Grid>
 </div>
 );
-}
 }
 export default Login;

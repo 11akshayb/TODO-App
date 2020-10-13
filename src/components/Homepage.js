@@ -6,14 +6,14 @@ import {
  
  function Homepage() {
      return (
-        <div>
+        <div className='homepageContainer'>
             <h1>WELCOME !</h1>
-            <Link to={{ pathname: "/login"}}>
+            <Link to={{ pathname: "/login"}} style={{textDecoration:"none",marginRight:20}}>
             <Button variant="contained" color="secondary">
                 LOGIN
             </Button>
             </Link>
-            <Link to={{pathname: "/signup"}}>
+            <Link to={{pathname: "/signup"}}  style={{textDecoration:"none"}}>
             <Button variant="contained" color="secondary">
                 SIGN-UP
             </Button>

@@ -4,12 +4,9 @@ Button,
 TextField,
 Grid,
 Paper,
-AppBar,
 Typography,
-Toolbar,
-Link,
 } from "@material-ui/core";
-// import {BRAND_NAME} from '../constants'
+
 class Signup extends React.Component {
 constructor(props) {
 super(props);
@@ -21,20 +18,13 @@ handleChange(event) {
 this.setState({ username: event.state.username, password: event.state.password , email:event.state.email});
 }
 handleSubmit(event) {
-// event.preventDefault();
-// if (this.state.username == 'admin@littech.in' && this.state.password == 'secret') {
-// this.props.history.push("/home");
-// } else {
-// alert('Incorrect Credntials!');
-// }
 
 localStorage.setItem("email", this.state.email);
 localStorage.setItem("username", this.state.username);
 localStorage.setItem("password", this.state.password);
-// localStorage.setItem("todos",{})
+localStorage.removeItem("todos");
 this.props.history.push("/login");
 
-// console.log("hi")
 }
 render() {
 return (

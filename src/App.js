@@ -1,11 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Header from "./components/Header.js"
+// import Header from "./components/Header.js"
 import Main from "./components/Main"
 import Homepage from "./components/Homepage"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
+
+import store from './redux/store';
+
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 
 import {
   BrowserRouter as Router,
@@ -14,6 +18,7 @@ import {
 
 function App() {
   return (
+    <Provider store={store}>
     <Router>
     <div className="App">
       <Route exact path='/' component={Homepage} />
@@ -25,6 +30,7 @@ function App() {
      {/* <Main /> */}
     </div>
     </Router>
+    </Provider>
   );
 }
 
