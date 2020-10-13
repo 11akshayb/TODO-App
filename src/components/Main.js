@@ -7,8 +7,13 @@ import ModalView from './ModalView';
 import AddButton from './AddButton'
 import ModalInnerView from './ModalInnverView'
 import SearchBox from './SearchBox'
+import Login from "./Login"
 
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import {
+    Link,
+  } from 'react-router-dom';
 
 class Main extends Component {
   constructor(props) {
@@ -142,8 +147,8 @@ class Main extends Component {
     );
     return (
       this.props.isLoggedIn ? (
-      <>
-        <div className="todo-wrapper">
+      <div className="mainContainer">
+        <div className="todo-wrapper" style={{marginLeft:"40vw"}}>
           <TypeSelector
             buttonArray={todoTypes}
             onClick={this.todosToShow}
@@ -173,9 +178,19 @@ class Main extends Component {
           </ModalView>
 
         </div>
-      </>
+        <div className='logoutButtonContainer'>
+          <Link to={{ pathname: "/"}} style={{textDecoration:"none"}}>
+            <Button variant="contained" color="secondary">
+                LOG-OUT
+            </Button>
+            </Link>
+        </div>
+      </div>
       ) : (
-        <div>PLEASE LOGIN!</div>
+        <div >
+          <h1>PLEASE LOGIN!</h1>
+          <Login />
+        </div>
       )
     );
   }
