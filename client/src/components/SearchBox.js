@@ -1,8 +1,8 @@
  
 import React from "react";
 
-export default ({ onChange }) => (
+export default function SearchBox ({ onChange }){
   <div className="search-box">
     <input type="text" placeholder="Search.." name="search" onChange={(e) => onChange(e)}/>
   </div>
-);
+}

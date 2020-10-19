@@ -6,7 +6,7 @@ import TodoList from './TodoList';
 import ModalView from './ModalView';
 import AddButton from './AddButton'
 import ModalInnerView from './ModalInnverView'
-import SearchBox from './SearchBox'
+// import SearchBox from './SearchBox'
 import Login from "./Login"
 
 import { connect } from 'react-redux';
@@ -154,9 +154,9 @@ class Main extends Component {
             onClick={this.todosToShow}
             btnActive={showTodoType}
           />
-          {listOfTodos.length > 1 || searchTerm !== "" ? (
+          {/* {listOfTodos.length > 1 || searchTerm !== "" ? (
             <SearchBox onChange={this.searchTodo} />
-          ) : null}
+          ) : null} */}
           <TodoList
             todos={listOfTodos}
             deleteTodo={this.deleteTodo}

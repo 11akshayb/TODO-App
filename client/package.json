@@ -4,10 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
     "material-ui-core": "^5.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
@@ -20,8 +18,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint '**/*.{js,jsx}' --quiet",
+    "lint:fix": "eslint '**/*.{js,jsx}' --fix",
+    "format": "prettier --write --single-quote --no-semi --print-width=120 --tab-width=2 \"src/**/*.{js,jsx} \""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +40,8 @@
     ]
   },
   "devDependencies": {
+    "prettier": "^2.1.2",
+    "react-test-renderer": "^16.14.0",
     "redux-devtools": "^3.7.0"
   }
 }

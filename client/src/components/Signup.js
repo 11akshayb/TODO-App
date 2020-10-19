@@ -23,7 +23,7 @@ localStorage.setItem("email", this.state.email);
 localStorage.setItem("username", this.state.username);
 localStorage.setItem("password", this.state.password);
 localStorage.removeItem("todos");
-this.props.history.push("/login");
+// history.push("/login");
 
 }
 render() {
