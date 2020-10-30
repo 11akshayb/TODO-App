@@ -1,0 +1,4 @@
+/node_modules
+
+/database/db.config.js/
+/database/testdb.config.js
