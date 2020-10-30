@@ -32,19 +32,39 @@ exports.register = (userParam) => {
         })
     })
 
-	// 	let passwordHash = bcrypt.hashSync(userParam.password, 10);
-	// 	// let users = {
-	// 	// 	name: userParam.name,
-	// 	// 	email: userParam.email,
-	// 	// 	password : passwordHash
-	// 	// }
-	// 	connection.query(`insert into users set ?`, users, (error, userInsert) => {
-	// 		connection.end();
-	// 		if(error){
-	// 			return reject(error);
-	// 		} else {
-	// 			return resolve(userInsert);
-	// 		}
-	// 	});
-	// });
 }
+
+exports.login = (userParam,userPassword) => {
+	return new Promise( async (resolve, reject) => {
+        // let today = new Date();
+        // const today = new Date()
+        // const userData = {
+        //     name: userParam.name,
+        //     email: userParam.email,
+        //     password: userParam.password,
+        //     createdAt: today
+        // }
+
+
+        if(bcrypt.compareSync(userParam.password,userPassword)){
+            let token = jwt.sign(userParam.dataValues, process.env.SECRET_KEY, {
+                expiresIn: 3000
+            })
+            return resolve(token)
+        }else{
+            return reject(res.json({status:400, error:"Wrong Password"}))
+        }
+            // .then(user => {
+            //     let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+            //         expiresIn: 3000
+            //     })
+            //     // return resolve(res.json({ token: token }))
+            //     return resolve(token)
+            //     console.log(token)
+            // })
+            // .catch(err => {
+            //    return reject(res.send('error: ' + err))
+            // })
+        })
+    }
+
