@@ -50,3 +50,35 @@ exports.getAll = (auth) => {
         })
     })
 }
+exports.delete = (authParam,taskId) => {
+    return new Promise( async (resolve, reject) => {
+    var decoded = jwt.verify(authParam, process.env.SECRET_KEY)
+    console.log("user_decoded_id",decoded.id);
+    Task.findOne({
+        where: {
+          user_id: decoded.id,
+          id:taskId
+        }
+    })
+    .then(task => {
+        if (task) {
+          Task.destroy({
+            where: {
+              id: taskId
+            }
+        })
+        .then(() => {
+            resolve ()
+        })
+        .catch(err => {
+            reject ({err:"Task not Found"})
+        })
+        }else{
+            reject("Task not Found")
+        }
+    })
+    .catch(err => {
+        reject('error: ' + err)
+    })
+    })
+}

@@ -12,7 +12,7 @@ export const getList = token => {
           console.log("res.data.message",res.data)
           // console.log("Yo man!")
           // console.log(res.data)
-            // res.data.status = 'success' 
+            res.data.status = 'success'
             // console.log(res);
             return res.data
         }).catch(err => {

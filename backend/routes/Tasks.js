@@ -33,6 +33,7 @@ process.env.SECRET_KEY = 'secret'
 
 tasks.post('/task', taskController.addTask);
 tasks.get('/tasks', taskController.getTask);
+tasks.delete('/task/:id', taskController.deleteTask);
 
 // function(req, res, next) {
 //   console.log("Post")
@@ -62,42 +63,42 @@ tasks.get('/tasks', taskController.getTask);
 //   }
 // })
 
-tasks.delete('/task/:id', function(req, res, next) {
-  if(req.headers['authorization']){
+// tasks.delete('/task/:id', function(req, res, next) {
+//   if(req.headers['authorization']){
 
-    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-      console.log("user_decoded_id",decoded.id);
-      Task.findOne({
-        where: {
-          user_id: decoded.id,
-          id:req.params.id
-        }
-      })
-      .then(task => {
-        if (task) {
-          Task.destroy({
-            where: {
-              id: req.params.id
-            }
-          })
-          .then(() => {
-            res.json({ status: 'Task Deleted!' })
-          })
-          .catch(err => {
-            res.send('error: ' + err)
-          })
-        }else{
-          res.json({ status: 'failed', message:'Task not found' })
-        }
-    }).catch(err => {
-      res.json({ status: 'failed', message:'Task not found' })
-    })
+//     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+//       console.log("user_decoded_id",decoded.id);
+//       Task.findOne({
+//         where: {
+//           user_id: decoded.id,
+//           id:req.params.id
+//         }
+//       })
+//       .then(task => {
+//         if (task) {
+//           Task.destroy({
+//             where: {
+//               id: req.params.id
+//             }
+//           })
+//           .then(() => {
+//             res.json({ status: 'Task Deleted!' })
+//           })
+//           .catch(err => {
+//             res.send('error: ' + err)
+//           })
+//         }else{
+//           res.json({ status: 'failed', message:'Task not found' })
+//         }
+//     }).catch(err => {
+//       res.json({ status: 'failed', message:'Task not found' })
+//     })
 
-  }else{
-      res.json({status:'failed',message:'Token not passed !'})
-      console.log("Token Not Passed");
-  }
-})
+//   }else{
+//       res.json({status:'failed',message:'Token not passed !'})
+//       console.log("Token Not Passed");
+//   }
+// })
 
 tasks.put('/task/:id', function(req, res, next) {
   if(req.headers['authorization']){
