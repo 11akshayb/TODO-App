@@ -87,3 +87,35 @@ exports.deleteTask = async(req,res,next) => {
 		});
 	}
 }
+exports.updateTask = async (req,res,next) => {
+    try{
+        if(req.headers['authorization']){
+            if (!req.body.name && !req.body.status) {
+              res.status(400)
+              res.json({
+                error: 'Bad Data'
+              })
+            }else{
+                let auth = req.headers['authorization']
+                // let taskId = req.params.id
+                taskServices.update(auth,req)
+                .then(() => {
+                    res.status(200)
+                    res.json({message:"Task Updated!"})
+                })
+                .catch(err => {
+                    res.status(404)
+                    res.json('error: ' + err)
+                })
+            }
+        }else{
+            res.status(400)
+            res.json({error : 'Token not Passed'})
+        }
+    }catch (error) {
+        res.status(404)
+		return res.json({
+			message: `Something went wrong : ${error.message}`,
+		});
+	}
+}

@@ -82,3 +82,58 @@ exports.delete = (authParam,taskId) => {
     })
     })
 }
+exports.update = (authParam,request) => {
+	return new Promise( async (resolve, reject) => {
+        var decoded = jwt.verify(authParam, process.env.SECRET_KEY)
+        console.log("user_decoded_id",decoded.id);
+        Task.findOne({
+        where: {
+          user_id: decoded.id,
+          id:request.params.id
+        }
+      })
+        .then(task => {
+          if (task) {
+            // res.json({status:'success'})
+            Task.update(
+              { name: request.body.name, status: request.body.status },
+              { where: { id: request.params.id } }
+            )
+              .then(() => {
+                resolve ()
+                // // if(task.name===""){
+                // //   res.json({status:304,message:"Name cannot be empty"})
+                // // }
+                // // else{
+                // // res.json({status:"updates"})
+                // // console.log('any')
+                // res.json({ status: 200, message:'Task Updated !' })
+                // // console.log('4')
+                // // }
+              })
+              .catch(err => {
+                reject ({err:"Task not Found"})
+            })
+          }else{
+            reject("Task not Found!!")
+          }
+        })
+        .catch(err => {
+            reject('error: ' + err)
+        })
+        //     bcrypt.hash(userParam.password,10,(err,hash)=>{
+        //     userParam.password = hash
+        //     User.create(userParam)
+        //     .then(user => {
+        //         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+        //             expiresIn: 3000
+        //         })
+        //          resolve(token)
+        //     })
+        //     .catch(err => {
+        //         reject('error: ' + err)
+        //     })
+        // })
+    })
+
+}

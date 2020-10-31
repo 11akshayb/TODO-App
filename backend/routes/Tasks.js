@@ -34,6 +34,7 @@ process.env.SECRET_KEY = 'secret'
 tasks.post('/task', taskController.addTask);
 tasks.get('/tasks', taskController.getTask);
 tasks.delete('/task/:id', taskController.deleteTask);
+tasks.put('/task/:id', taskController.updateTask);
 
 // function(req, res, next) {
 //   console.log("Post")
@@ -100,64 +101,64 @@ tasks.delete('/task/:id', taskController.deleteTask);
 //   }
 // })
 
-tasks.put('/task/:id', function(req, res, next) {
-  if(req.headers['authorization']){
-    if (!req.body.name && !req.body.status) {
-      res.status(400)
-      res.json({
-        error: 'Bad Data'
-      })
-      console.log(res.json)
-    } else {
+// tasks.put('/task/:id', function(req, res, next) {
+//   if(req.headers['authorization']){
+//     if (!req.body.name && !req.body.status) {
+//       res.status(400)
+//       res.json({
+//         error: 'Bad Data'
+//       })
+//       console.log(res.json)
+//     } else {
 
-      var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-      console.log("user_decoded_id",decoded.id);
-      Task.findOne({
-        where: {
-          user_id: decoded.id,
-          id:req.params.id
-        }
-      })
-        .then(task => {
-          // res.json({task:task})
-          // res.json({task: task})
-          if (task) {
-            // res.json({status:'success'})
-            Task.update(
-              { name: req.body.name, status: req.body.status },
-              { where: { id: req.params.id } }
-            )
-              .then(() => {
-                // if(task.name===""){
-                //   res.json({status:304,message:"Name cannot be empty"})
-                // }
-                // else{
-                // res.json({status:"updates"})
-                // console.log('any')
-                res.json({ status: 200, message:'Task Updated !' })
-                // console.log('4')
-                // }
-              })
-              // .error(err => handleError(err))
-          }else{
-            res.json({ status: 'failed3', message:'Task not found' })
-            console.log('3')
+//       var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+//       console.log("user_decoded_id",decoded.id);
+//       Task.findOne({
+//         where: {
+//           user_id: decoded.id,
+//           id:req.params.id
+//         }
+//       })
+//         .then(task => {
+//           // res.json({task:task})
+//           // res.json({task: task})
+//           if (task) {
+//             // res.json({status:'success'})
+//             Task.update(
+//               { name: req.body.name, status: req.body.status },
+//               { where: { id: req.params.id } }
+//             )
+//               .then(() => {
+//                 // if(task.name===""){
+//                 //   res.json({status:304,message:"Name cannot be empty"})
+//                 // }
+//                 // else{
+//                 // res.json({status:"updates"})
+//                 // console.log('any')
+//                 res.json({ status: 200, message:'Task Updated !' })
+//                 // console.log('4')
+//                 // }
+//               })
+//               // .error(err => handleError(err))
+//           }else{
+//             res.json({ status: 'failed3', message:'Task not found' })
+//             console.log('3')
 
-          }
-        }).catch(err => {
-          res.json({status:err})
-          // res.json({ error: err, message:'Task not found' })
-          // console.log(err)
-        })
+//           }
+//         }).catch(err => {
+//           res.json({status:err})
+//           // res.json({ error: err, message:'Task not found' })
+//           // console.log(err)
+//         })
 
-    }
-  }
-  else{
-    res.json({status:'failed',message:'Token not passed !'})
-    console.log("Token Not Passed");
-    console.log('2')
+//     }
+//   }
+//   else{
+//     res.json({status:'failed',message:'Token not passed !'})
+//     console.log("Token Not Passed");
+//     console.log('2')
 
-  }
-})
+//   }
+// })
 
 module.exports = tasks
