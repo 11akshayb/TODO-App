@@ -8,11 +8,18 @@ export const register = newUser => {
       password: newUser.password
     })
     .then(response => {
-      if(response.data.status === 400){
+      if(response.status === 400 || response.status === 404){
+        console.log("response",response.status)
+        console.log("data",response.data)
         alert(response.data.error)
-      }
+   
       console.log(response)
-      console.log('Registered')
+      // console.log('Registered')
+      }else{
+        console.log("response",response.status)
+        console.log("data",response.data)
+        alert(response.data.message)
+      }
     })
 }
 

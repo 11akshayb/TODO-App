@@ -18,55 +18,44 @@ exports.register = async (req, res,next) => {
                         password: req.body.password,
                         createdAt: new Date()
                     }
-                    let userRegister = userServices.register(userData)
-                    // if(userRegister)
-                    // console.log("Haha",user)
-                    // bcrypt.hash(req.body.password,10,(err,hash)=>{
-                    //     userData.password = hash
-                    //     User.create(userData)
-                    //     .then(user => {
-                    //         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-                    //             expiresIn: 3000
-                    //         })
-                    //         res.json({ token: token })
-                    //     })
-                    //     .catch(err => {
-                    //         res.send('error: ' + err)
-                    //     })
-                    // })
-                    
+                    userServices.register(userData)
+                    .then(token => {
+                        res.status(200)
+                        res.json({message:"Registration successful !",token:token})
+                    })
+                    .catch(err => {
+                        res.status(404)
+                        res.json({error:err})
+                    })                    
                 } else {
-                    res.json({status:400, error:"User does not exist"})
-                    // res.status(400).json({error:'User does not exist'});
-                  }
+                    res.status(400)
+                    res.json({error:"User already exists !!"})
+                }
               })
               .catch(err => {
-                res.send('error: ' + err)
+                res.status(404)
+                res.json({error:err})
               })
         
             }else{
-              res.json({status:400, error:"Check all Details!"})
+              res.status(400)
+              res.json({error: "Check all Details!"})  
             }
-         
-        // })
-
 	} catch (error) {
+        res.status(404)
 		return res.json({
-			status: true,
-			message: `Somthing went wrong : ${error.message}`,
-			result: null
+			message: `Something went wrong : ${error.message}`,
 		});
 	}
 }
 
 exports.login = async (req, res,next) => {
 	try {
-        // if(!validator.isEmpty(req.body.name) && !validator.isEmpty(req.body.email) && validator.isEmail(req.body.email) && !validator.isEmpty(req.body.password)){ 
             User.findOne({
               where: {
                 email: req.body.email
               }
-            // })
+            })
             .then(user => {
                 if (user) {
                     const userData = {
@@ -76,42 +65,28 @@ exports.login = async (req, res,next) => {
                         createdAt: new Date()
                     }
                     let userPassword = user.password
-                    let userLogin = userServices.login(userData,userPassword)
-                    // if(userRegister)
-                    // console.log("Haha",user)
-                    // bcrypt.hash(req.body.password,10,(err,hash)=>{
-                    //     userData.password = hash
-                    //     User.create(userData)
-                    //     .then(user => {
-                    //         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-                    //             expiresIn: 3000
-                    //         })
-                    //         res.json({ token: token })
-                    //     })
-                    //     .catch(err => {
-                    //         res.send('error: ' + err)
-                    //     })
-                    // })
-                    
+                    userServices.login(user,userData,userPassword)
+                    .then(token=> {
+                        res.status(200)
+                        res.json({message:"Login successful!!!"})
+                    })
+                    .catch(err => {
+                        res.status(404)
+                        res.json({error:err})
+                    }) 
                 } else {
-                  res.json({ status:400, error: 'User Already Exists!!!' })
+                    res.status(400)
+                    res.json({error:"User does not exist !!"})
                 }
               })
               .catch(err => {
+                  res.status(404)
                 res.send('error: ' + err)
               })
-        
-            }else{
-              res.json({status:400, error:"Check all Details!"})
-            }
-         
-        // })
-
 	} catch (error) {
+        res.status(404)
 		return res.json({
-			status: true,
 			message: `Somthing went wrong : ${error.message}`,
-			result: null
 		});
 	}
 }
