@@ -68,7 +68,8 @@ exports.login = async (req, res,next) => {
                     userServices.login(user,userData,userPassword)
                     .then(token=> {
                         res.status(200)
-                        res.json({message:"Login successful!!!"})
+                        res.json({token:token,message:"Login successful!!!"})
+                        console.log(token)
                     })
                     .catch(err => {
                         res.status(404)

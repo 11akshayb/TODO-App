@@ -4,45 +4,23 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const validator = require('validator')
 const Task = require('../models/Task')
+const taskController = require('../controllers/tasks.controller.js');
 
 tasks.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-tasks.get('/tasks', function(req, res, next) {
-  console.log("1")
-  if(req.headers['authorization']){
-    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-    Task.findAll({
-      where: {
-        user_id: decoded.id
-      }
-    })
-      .then(tasks => {
-        res.json(tasks)
-      })
-      .catch(err => {
-        res.send('error: ' + err)
-      })
-  }else{
-    res.json({status:'failed',message:'Token not passed !'})
-    console.log("Token Not Passed");
-  }
-})
-
-// tasks.get('/task/:id', function(req, res, next) {
+// tasks.get('/tasks', function(req, res, next) {
+//   console.log("1")
 //   if(req.headers['authorization']){
-//     Task.findOne({
+//     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+//     Task.findAll({
 //       where: {
-//         id: req.params.id
+//         user_id: decoded.id
 //       }
 //     })
-//       .then(task => {
-//         if (task) {
-//           res.json(task)
-//         } else {
-//           res.send('Task does not exist')
-//         }
+//       .then(tasks => {
+//         res.json(tasks)
 //       })
 //       .catch(err => {
 //         res.send('error: ' + err)
@@ -53,33 +31,36 @@ tasks.get('/tasks', function(req, res, next) {
 //   }
 // })
 
-tasks.post('/task', function(req, res, next) {
-  console.log("Post")
-  if(req.headers['authorization']){
-    if (!req.body.name && !req.body.status) {
-      res.status(400)
-      res.json({
-        error: 'Bad Data'
-      })
-    } else {
-      var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-      const user_id = decoded.id;
-      req.body.user_id = user_id;
-      console.log("req-body",req.body);
-      Task.create(req.body)
-        .then(data => {
-          res.send(data)
-        })
-        .catch(err => {
-          res.json('error: ' + err)
-        })
-    }
-  }
-  else{
-    res.json({status:'failed',message:'Token not passed !'})
-    console.log("Token Not Passed");
-  }
-})
+tasks.post('/task', taskController.addTask);
+tasks.get('/tasks', taskController.getTask);
+
+// function(req, res, next) {
+//   console.log("Post")
+//   if(req.headers['authorization']){
+//     if (!req.body.name && !req.body.status) {
+//       res.status(400)
+//       res.json({
+//         error: 'Bad Data'
+//       })
+//     } else {
+//       var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+//       const user_id = decoded.id;
+//       req.body.user_id = user_id;
+//       console.log("req-body",req.body);
+//       Task.create(req.body)
+//         .then(data => {
+//           res.send(data)
+//         })
+//         .catch(err => {
+//           res.json('error: ' + err)
+//         })
+//     }
+//   }
+//   else{
+//     res.json({status:'failed',message:'Token not passed !'})
+//     console.log("Token Not Passed");
+//   }
+// })
 
 tasks.delete('/task/:id', function(req, res, next) {
   if(req.headers['authorization']){

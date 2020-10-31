@@ -30,12 +30,15 @@ export const login = user => {
       password: user.password
     })
     .then(response => {
+      console.log(response.status)
+      console.log(response.data.message)
       // console.log("response",response.data.token)
-      if(response)
-      if(response.data.status === 400){
+      // if(response)
+      if(response.status === 400 || response.status == 404){
         alert(response.data.error)
       }else{
       localStorage.setItem('usertoken', response.data.token)
+      // console.log(response.data.token)
       return response.data
       }
     })

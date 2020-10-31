@@ -1,0 +1,52 @@
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+process.env.SECRET_KEY = 'secret'
+const Task = require('../models/Task')
+
+exports.add = (authParam,request) => {
+	return new Promise( async (resolve, reject) => {
+        var decoded = jwt.verify(authParam, process.env.SECRET_KEY)
+        const user_id = decoded.id;
+        request.body.user_id = user_id;
+        console.log("req-body",request.body);
+        Task.create(request.body)
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => {
+            reject('error: ' + err)
+        })
+        //     bcrypt.hash(userParam.password,10,(err,hash)=>{
+        //     userParam.password = hash
+        //     User.create(userParam)
+        //     .then(user => {
+        //         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+        //             expiresIn: 3000
+        //         })
+        //          resolve(token)
+        //     })
+        //     .catch(err => {
+        //         reject('error: ' + err)
+        //     })
+        // })
+    })
+
+}
+
+
+exports.getAll = (auth) => {
+    return new Promise( async (resolve, reject) => {
+        var decoded = jwt.verify(auth, process.env.SECRET_KEY)
+        Task.findAll({
+            where: {
+              user_id: decoded.id
+            }
+          })
+        .then(tasks => {
+          resolve(tasks)
+        })
+        .catch(err => {
+            reject('error: ' + err)
+        })
+    })
+}
