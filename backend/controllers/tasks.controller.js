@@ -1,17 +1,13 @@
 const taskServices = require('../services/task.services.js');
-const validator = require('validator')
-const Task = require('../models/Task')
 
 exports.getTask = async (req,res,next) => {
     try{
         if(req.headers['authorization']){
             let auth = req.headers['authorization']
-            // console.log('headers',auth)
             taskServices.getAll(auth)
             .then(tasks => {
                 res.status(200)
                 res.send(tasks)
-                // console.log(tasks)
                 res.json({tasks:tasks,message:"Got all Task!"})
             })
             .catch(err => {
@@ -43,11 +39,9 @@ exports.addTask = async (req,res,next) => {
             }else{
                 let auth = req.headers['authorization']
                 taskServices.add(auth,req)
-                console.log('requ',req.body)
                 .then(data => {
                     res.status(200)
                     res.send(data)
-                    // console.log('Hi',data.dataValues)
                 })
                 .catch(err => {
                     res.status(404)
@@ -101,7 +95,6 @@ exports.updateTask = async (req,res,next) => {
               })
             }else{
                 let auth = req.headers['authorization']
-                // let taskId = req.params.id
                 taskServices.update(auth,req)
                 .then(() => {
                     res.status(200)

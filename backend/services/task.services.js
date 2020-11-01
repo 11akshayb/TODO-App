@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 process.env.SECRET_KEY = 'secret'
 const Task = require('../models/Task')
 
@@ -8,27 +7,13 @@ exports.add = (authParam,request) => {
         var decoded = jwt.verify(authParam, process.env.SECRET_KEY)
         const user_id = decoded.id;
         request.body.user_id = user_id;
-        console.log("req-body",request.body);
         Task.create(request.body)
         .then(data => {
           resolve(data)
         })
         .catch(err => {
             reject('error: ' + err)
-        })
-        //     bcrypt.hash(userParam.password,10,(err,hash)=>{
-        //     userParam.password = hash
-        //     User.create(userParam)
-        //     .then(user => {
-        //         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-        //             expiresIn: 3000
-        //         })
-        //          resolve(token)
-        //     })
-        //     .catch(err => {
-        //         reject('error: ' + err)
-        //     })
-        // })
+        })                    
     })
 
 }
@@ -53,7 +38,6 @@ exports.getAll = (auth) => {
 exports.delete = (authParam,taskId) => {
     return new Promise( async (resolve, reject) => {
     var decoded = jwt.verify(authParam, process.env.SECRET_KEY)
-    console.log("user_decoded_id",decoded.id);
     Task.findOne({
         where: {
           user_id: decoded.id,
@@ -85,7 +69,6 @@ exports.delete = (authParam,taskId) => {
 exports.update = (authParam,request) => {
 	return new Promise( async (resolve, reject) => {
         var decoded = jwt.verify(authParam, process.env.SECRET_KEY)
-        console.log("user_decoded_id",decoded.id);
         Task.findOne({
         where: {
           user_id: decoded.id,
@@ -94,22 +77,12 @@ exports.update = (authParam,request) => {
       })
         .then(task => {
           if (task) {
-            // res.json({status:'success'})
             Task.update(
               { name: request.body.name, status: request.body.status },
               { where: { id: request.params.id } }
             )
               .then(() => {
                 resolve ()
-                // // if(task.name===""){
-                // //   res.json({status:304,message:"Name cannot be empty"})
-                // // }
-                // // else{
-                // // res.json({status:"updates"})
-                // // console.log('any')
-                // res.json({ status: 200, message:'Task Updated !' })
-                // // console.log('4')
-                // // }
               })
               .catch(err => {
                 reject ({err:"Task not Found"})
@@ -121,19 +94,6 @@ exports.update = (authParam,request) => {
         .catch(err => {
             reject('error: ' + err)
         })
-        //     bcrypt.hash(userParam.password,10,(err,hash)=>{
-        //     userParam.password = hash
-        //     User.create(userParam)
-        //     .then(user => {
-        //         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
-        //             expiresIn: 3000
-        //         })
-        //          resolve(token)
-        //     })
-        //     .catch(err => {
-        //         reject('error: ' + err)
-        //     })
-        // })
     })
 
 }

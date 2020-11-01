@@ -18,7 +18,6 @@ users.post('/register', (req, res) => {
       password: req.body.password,
       createdAt: today
     }
-    // if(req.body.name.split('').includes(' ') || req.body.name === '' || req.body.email === '' || req.body.password === ''){
   if(!validator.isEmpty(req.body.name) && !validator.isEmpty(req.body.email) && validator.isEmail(req.body.email) && !validator.isEmpty(req.body.password)){ 
     User.findOne({
       where: {
@@ -76,7 +75,6 @@ users.post('/login', (req, res) => {
             }
         } else {
           res.json({status:400, error:"User does not exist"})
-          // res.status(400).json({error:'User does not exist'});
         }
       })
       .catch(err => {
