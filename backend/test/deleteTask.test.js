@@ -59,7 +59,7 @@ describe('/DELETE task with a token', () => {
         }
           chai.request(server)
           .delete('/api/task/3')
-          .set("Authorization", 'ahahahah')
+          .set("Authorization", token)
           .send(task)
           .end((err, res) => {
                 res.should.have.status(200);

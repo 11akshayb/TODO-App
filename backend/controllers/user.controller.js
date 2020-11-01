@@ -1,4 +1,4 @@
-const userServices = require('../services/UserServices');
+const userServices = require('../services/user.services');
 const validator = require('validator')
 const User = require('../models/User')
 
@@ -69,7 +69,7 @@ exports.login = async (req, res,next) => {
                     .then(token=> {
                         res.status(200)
                         res.json({token:token,message:"Login successful!!!"})
-                        console.log(token)
+                        console.log(token.length)
                     })
                     .catch(err => {
                         res.status(404)

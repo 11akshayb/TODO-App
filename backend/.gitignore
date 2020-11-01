@@ -2,3 +2,4 @@
 
 /database/db.config.js/
 /database/testdb.config.js
+/token.config.js

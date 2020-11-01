@@ -26,6 +26,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5",
+    "sinon": "^9.2.1",
     "validator": "^13.1.17"
   },
   "devDependencies": {
