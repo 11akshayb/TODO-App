@@ -21,11 +21,9 @@ describe('/PUT task without token', () => {
           .send(request)
           .end((err, res) => {
                 res.should.have.status(200);
-                // res.body.should.be.a('object');
                 res.should.be.json;
                 res.body.should.have.property('status').eql('failed');
                 res.body.should.have.property('message').eql('Token not passed !');
-                // console.log(res)
             done();
           });
     });
@@ -42,20 +40,11 @@ describe("User", () => {
           .post("/users/login")
           .send(user)
           .end((err, res) => {
-            //   console.log(res.body.token)
             token = res.body.token;
-            // console.log(token)
             res.should.have.status(200);
             done();
           });
       });
-    //   afterEach(done => {
-    //     // After each test we truncate the database
-    //     User.remove({}, err => {
-    //       done();
-    //     });
-    //   });
-
 describe('/PUT task with a token', () => {
     it('it should UPDATE a task given the id', (done) => {
         let task = {
@@ -71,13 +60,9 @@ describe('/PUT task with a token', () => {
           .send(request)
           .end((err, res) => {
                 res.should.have.status(200);
-                res.should.be.json;
-                
-                
+                res.should.be.json;                            
                 res.body.should.have.property('status').eql('success');
                 res.body.should.have.property('message').eql('Task Updated !');
-
-                console.log('hahah',res.body)
             done();
           });
     });

@@ -17,19 +17,14 @@ describe('/POST User Register', () => {
         .send(user)
         .end((err, res) => {
               res.should.have.status(200);
-               // res.body.should.be.a('object');
               res.should.be.json;
-              // console.log(res)
-            //   console.log(res.request._data)
-                           res.request._data.should.have.property('name').eql('jjj');
+              res.request._data.should.have.property('name').eql('jjj');
               res.request._data.should.have.property('email').eql('jjj@gmail.com');
               res.request._data.should.have.property('password').eql('jjj');
               res.body.should.have.property('token')
               res.should.have.property('badRequest').eql(false);
               res.should.have.property('unauthorized').eql(false);
-            // res.should.have.property('notAcceptable').eql(false);
-            // res.should.have.property('forbidden').eql(false);
-            // res.should.have.property('notFound').eql(false);
+      
         done();
 
         });

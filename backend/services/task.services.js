@@ -52,7 +52,7 @@ exports.delete = (authParam,taskId) => {
             }
         })
         .then(() => {
-            resolve ()
+            resolve ({message:"Task Deleted!"})
         })
         .catch(err => {
             reject ({err:"Task not Found"})
@@ -82,7 +82,7 @@ exports.update = (authParam,request) => {
               { where: { id: request.params.id } }
             )
               .then(() => {
-                resolve ()
+                resolve ({message:"Task Updated!"})
               })
               .catch(err => {
                 reject ({err:"Task not Found"})

@@ -66,9 +66,9 @@ exports.deleteTask = async(req,res,next) => {
             let auth = req.headers['authorization']
             let taskId = req.params.id
             taskServices.delete(auth,taskId)
-            .then(() => {
+            .then((message) => {
                 res.status(200)
-                res.json({message:"Task Deleted!"})
+                res.json({message:message})
             })
             .catch(err => {
                 res.status(404)
@@ -95,6 +95,8 @@ exports.updateTask = async (req,res,next) => {
               })
             }else{
                 let auth = req.headers['authorization']
+                console.log('HHAHAHAHAH',req.params)
+                console.log('HHAHAHAHAH',req.body)
                 taskServices.update(auth,req)
                 .then(() => {
                     res.status(200)

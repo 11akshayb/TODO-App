@@ -3,20 +3,6 @@ const bcrypt = require('bcrypt')
 process.env.SECRET_KEY = 'secret'
 const User = require('../models/User')
 
-// exports.findOne = (requestedEmail) => {
-//     User.findOne({
-//         where:{
-//             email: requestedEmail
-//         }
-//     })
-//     .then(user => {
-//         return user
-//     })
-//     .catch(err => {
-//         console.log("hehe",err)
-//         return err
-//     })
-// }
 exports.register = (userParam) => {
 	return new Promise( async (resolve, reject) => {
             bcrypt.hash(userParam.password,10,(err,hash)=>{
