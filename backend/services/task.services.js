@@ -31,7 +31,8 @@ exports.getAll = (auth) => {
           resolve(tasks)
         })
         .catch(err => {
-            reject('error: ' + err)
+          reject(err)
+            // reject('error: ' + err)
         })
     })
 }

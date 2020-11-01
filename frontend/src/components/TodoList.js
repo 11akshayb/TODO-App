@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { getList, addToList, deleteItem, updateItem } from './TodoListFunctions'
-// import FormValidator from './FormValidator'
 
 class TodoList extends Component {
   constructor() {
@@ -39,7 +38,6 @@ class TodoList extends Component {
       isUpdate : false,
       errorMessage:'',
       items: [],
-      // validation: this.validator.valid(),
     });
     this.getAll(token)
   }
@@ -61,7 +59,8 @@ class TodoList extends Component {
   
 
   getAll = token => {
-    getList(token).then(data => {
+    getList(token)
+    .then(data => {
         if(data.status !== 'success'){
             localStorage.removeItem('usertoken')
             this.props.history.push(`/login`)
@@ -77,6 +76,10 @@ class TodoList extends Component {
             )
         }
     })
+    .catch(err => {
+      // console.log(err)
+      this.setState({ editDisabled: false, errorMessage:err.message })
+    })
   }
 
   onSubmit = e => {
@@ -90,12 +93,12 @@ class TodoList extends Component {
             status: this.state.status
         }
 
-        addToList(taskRequest).then(() => {
+        addToList(taskRequest)
+        .then(() => {
             this.getAll(token)
         }).catch(err=>{
             this.setState({ editDisabled: false, errorMessage:err.message })
         })
-        // this.setState({ editDisabled: false })
     }
 
 
@@ -109,7 +112,8 @@ class TodoList extends Component {
             name: this.state.task,
             status: this.state.status
         }
-        updateItem(taskUpdateRequest).then(() => {
+        updateItem(taskUpdateRequest)
+        .then(() => {
         this.getAll(token)
         }).catch(err=>{
             this.setState({ editDisabled: false, isUpdate:false, errorMessage:err.message })
@@ -132,7 +136,8 @@ class TodoList extends Component {
   onDelete = (val, e) => {
     e.preventDefault()
     const token = localStorage.usertoken;
-    deleteItem(val, token).then((res) => {
+    deleteItem(val, token)
+    .then((res) => {
         if(res.data.status === 'failed'){
             this.setState({ errorMessage:res.data.message })
         }
@@ -147,13 +152,6 @@ class TodoList extends Component {
     <div className="row"> 
         <div className="col-md-10 mt-5">
         <div className="col-md-10">
-        {/* { this.state.errorMessage !== '' ?
-            <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error Message: </strong> {this.state.errorMessage}
-            </div>
-            :
-            <div></div>
-        } */}
         </div>
         <form onSubmit={this.onSubmit}>
         <div className="form-group">

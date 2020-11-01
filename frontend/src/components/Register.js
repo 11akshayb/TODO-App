@@ -26,17 +26,19 @@ class Register extends Component {
 
     this.submitted = true;
 
-
-      // if(this.state.name !== '' && this.state.email !== '' && this.state.password !== ''){
-      const newUser = {
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password
-      }
-      register(newUser).then(res => {
-        this.props.history.push(`/login`)
-      })
-    // }
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password
+    }
+    
+    register(newUser)
+    .then(res => {
+      this.props.history.push(`/login`)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   render() {

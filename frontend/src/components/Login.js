@@ -37,6 +37,12 @@ class Login extends Component {
           this.props.history.push(`/todo-list`)
         }
       })
+      .catch(err => {
+        console.log(err)
+        this.setState({
+          errors:err
+        })
+      })
     
   }
 

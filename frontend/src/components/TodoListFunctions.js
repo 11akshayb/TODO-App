@@ -10,16 +10,11 @@ export const getList = token => {
         })
         .then(res => {
           console.log("res.data.message",res.data)
-          // console.log("Yo man!")
-          // console.log(res.data)
             res.data.status = 'success'
-            // console.log(res);
             return res.data
         }).catch(err => {
             return {
-                error:'Please login again!',
-                status:'failed',
-                message:err.message
+                err
             }
         })
 }
@@ -94,5 +89,9 @@ export const updateItem = taskUpdateRequest => {
       //   console.log(response.data.message)
       // }
         return response.data;
+    })
+    .catch(function(error) {
+      console.log(error)
+      return error;
     })
 }
