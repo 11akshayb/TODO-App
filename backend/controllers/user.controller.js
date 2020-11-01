@@ -3,7 +3,6 @@ const validator = require('validator')
 const User = require('../models/User')
 
 exports.register = async (req, res,next) => {
-	try {
         if(!validator.isEmpty(req.body.name) && !validator.isEmpty(req.body.email) && validator.isEmail(req.body.email) && !validator.isEmpty(req.body.password)){ 
             User.findOne({
               where: {
@@ -41,16 +40,10 @@ exports.register = async (req, res,next) => {
               res.status(400)
               res.json({error: "Check all Details!"})  
             }
-	} catch (error) {
-        res.status(404)
-		return res.json({
-			message: `Something went wrong : ${error.message}`,
-		});
-	}
 }
 
 exports.login = async (req, res,next) => {
-	try {
+
             User.findOne({
               where: {
                 email: req.body.email
@@ -84,10 +77,4 @@ exports.login = async (req, res,next) => {
                   res.status(404)
                 res.send('error: ' + err)
               })
-	} catch (error) {
-        res.status(404)
-		return res.json({
-			message: `Somthing went wrong : ${error.message}`,
-		});
-	}
 }
