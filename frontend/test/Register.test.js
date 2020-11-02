@@ -16,7 +16,7 @@ describe('Register page', function() {
       expect(wrapper.find('button')).to.have.length(1);
       expect(wrapper.find('input')).to.have.length(3);
     });
-    it('has a email input field', () => {
+    it('has an email input field', () => {
       const wrapper = shallow(<Register />);
       expect(wrapper.containsMatchingElement( <label htmlFor="email">Email address</label>)).to.be.true;
     });

@@ -61,7 +61,7 @@ class TodoList extends Component {
   getAll = token => {
     getList(token)
     .then(data => {
-        if(data.status !== 'success'){
+        if(data.result !== 'success'){
             localStorage.removeItem('usertoken')
             this.props.history.push(`/login`)
         }else{
@@ -138,7 +138,7 @@ class TodoList extends Component {
     const token = localStorage.usertoken;
     deleteItem(val, token)
     .then((res) => {
-        if(res.data.status === 'failed'){
+        if(res.data.result === 'failed'){
             this.setState({ errorMessage:res.data.message })
         }
         this.getAll(token);

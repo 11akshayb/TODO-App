@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { login } from './UserFunctions'
-// import FormValidator from './FormValidator'
+
 
 class Login extends Component {
   constructor() {

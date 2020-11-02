@@ -9,13 +9,13 @@ export const getList = token => {
         }
         })
         .then(res => {
+          console.log('Hello',res)
           console.log("res.data.message",res.data)
-            res.data.status = 'success'
+            res.data.result = 'success'
             return res.data
         }).catch(err => {
-            return {
-                err
-            }
+            return err
+            
         })
 }
 
@@ -35,11 +35,12 @@ export const addToList = task => {
       }
     )
     .then(function(response) {
+      console.log(response.status)
         return response.data;
     }).catch(err => {
         return {
             error:'Error to add',
-            status:'failed',
+            result:'failed',
             message:err.message
         }
     })
