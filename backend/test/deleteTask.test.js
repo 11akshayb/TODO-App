@@ -43,17 +43,17 @@ describe("User", () => {
 describe('/DELETE task with a token', () => {
     it('it should DELETE a task given the id', (done) => {
         let task = {
-            id:3
+            id:11
         }
           chai.request(server)
-          .delete('/api/task/3')
+          .delete('/api/task/11')
           .set("Authorization", token)
           .send(task)
           .end((err, res) => {
                 res.should.have.status(200);
                 res.should.be.json;
-                res.body.should.not.have.property('id').eql('3');
-                res.body.should.have.property('status').eql('Task Deleted!');
+                res.body.should.not.have.property('id').eql('11');
+                res.body.should.have.property('message').eql('Task Deleted!');
             done();
           });
     });

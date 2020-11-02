@@ -15,7 +15,7 @@ exports.register = (userParam) => {
                  resolve(token)
             })
             .catch(err => {
-                reject('error: ' + err)
+                reject('error2: ' + err)
             })
         })
     })

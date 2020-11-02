@@ -8,9 +8,9 @@ chai.use(chaiHttp);
 describe('/POST User Register', () => {
     it('it should register user', (done) => {  
       const user = {
-        name: 'jjj',
-        email: 'jjj@gmail.com',
-        password: 'jjj'
+        name: 'kk',
+        email: 'kk@gmail.com',
+        password: 'kk'
       }
       chai.request(server)
         .post('/users/register')
@@ -18,9 +18,9 @@ describe('/POST User Register', () => {
         .end((err, res) => {
               res.should.have.status(200);
               res.should.be.json;
-              res.request._data.should.have.property('name').eql('jjj');
-              res.request._data.should.have.property('email').eql('jjj@gmail.com');
-              res.request._data.should.have.property('password').eql('jjj');
+              res.request._data.should.have.property('name').eql('kk');
+              res.request._data.should.have.property('email').eql('kk@gmail.com');
+              res.request._data.should.have.property('password').eql('kk');
               res.body.should.have.property('token')
               res.should.have.property('badRequest').eql(false);
               res.should.have.property('unauthorized').eql(false);

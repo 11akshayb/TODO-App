@@ -86,9 +86,9 @@ export const updateItem = taskUpdateRequest => {
       if(response.data.status===200){
         alert(response.data.message)
       }
-      // else if(response.data.status===304){
-      //   console.log(response.data.message)
-      // }
+      else{
+        console.log(response.data.error)
+      }
         return response.data;
     })
     .catch(function(error) {

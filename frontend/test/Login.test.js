@@ -36,5 +36,4 @@ describe('Login page', function() {
       wrapper.setState({ email: 'jjj@gmail.com', password: 'jjj'});
       wrapper.find('button').simulate('submit');
     });
-    //   const handleFormSubmit = sinon.spy();
 });

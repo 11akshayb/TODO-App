@@ -41,8 +41,7 @@ export const login = user => {
       .then(response => {
         console.log(response.status)
         console.log(response.data.message)
-        // console.log("response",response.data.token)
-        // if(response)
+
         if(response.status === 400 || response.status === 404){
           alert(response.data.error)
         }else{
