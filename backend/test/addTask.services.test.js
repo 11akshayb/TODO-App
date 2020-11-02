@@ -10,7 +10,7 @@ describe('Service for adding a task', () => {
         const req = {body:{ name: 'kkkk', status: 0, user_id: 1 }}
     app.add(auth,req).then(
         function(result){
-            result.should.be.json;
+            // result.should.be.json;
             result.should.have.property('dataValues');
             result.dataValues.should.have.property('createdAt');
             result.dataValues.should.have.property('id');

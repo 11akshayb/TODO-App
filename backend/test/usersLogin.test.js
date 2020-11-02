@@ -22,6 +22,7 @@ describe('/POST User Login', () => {
           res.request._data.should.have.property('email').eql('jjj@gmail.com');
           res.request._data.should.have.property('password').eql('jjj');
           res.body.should.have.property('token')
+                        console.log(res.body.token)
           res.should.have.property('badRequest').eql(false);
           res.should.have.property('unauthorized').eql(false);
           res.should.have.property('notAcceptable').eql(false);
